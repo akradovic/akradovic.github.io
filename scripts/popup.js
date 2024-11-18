@@ -2,7 +2,6 @@ const CLIENT_ID = '144892577505-asqcuvotno6npuf54318hvjich4dkvgk.apps.googleuser
 const REDIRECT_URI = 'https://akradovic.github.io/oauth2callback.html';
 const SCOPE = 'https://www.googleapis.com/auth/chrome.sync.history';
 
-
 document.addEventListener('DOMContentLoaded', function() {
   const loginButton = document.getElementById('login');
   const historyContainer = document.getElementById('history-container');
