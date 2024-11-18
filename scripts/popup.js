@@ -1,5 +1,5 @@
 const CLIENT_ID = '144892577505-asqcuvotno6npuf54318hvjich4dkvgk.apps.googleusercontent.com';
-const REDIRECT_URI = 'https://akradovic.github.io/oauth2callback';  // Replace with your domain
+const REDIRECT_URI = 'https://akradovic.github.io/popup/oauth2callback';  // Replace with your domain
 const SCOPE = 'https://www.googleapis.com/auth/chrome.sync.history';
 
 document.addEventListener('DOMContentLoaded', function() {
