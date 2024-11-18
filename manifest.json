@@ -12,11 +12,5 @@
   ],
   "action": {
     "default_popup": "popup/popup.html"
-  },
-  "background": {
-    "service_worker": "background.js"
-  },
-  "externally_connectable": {
-    "matches": ["https://akradovic.github.io/*"]
   }
 }
