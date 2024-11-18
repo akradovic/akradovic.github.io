@@ -1,5 +1,5 @@
-const CLIENT_ID = 'YOUR_CLIENT_ID_HERE';
-const REDIRECT_URI = chrome.runtime.getURL('popup.html');
+const CLIENT_ID = '144892577505-asqcuvotno6npuf54318hvjich4dkvgk.apps.googleusercontent.com';
+const REDIRECT_URI = 'https://akradovic.github.io/oauth2callback';  // Replace with your domain
 const SCOPE = 'https://www.googleapis.com/auth/chrome.sync.history';
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -8,21 +8,12 @@ document.addEventListener('DOMContentLoaded', function() {
   
   loginButton.addEventListener('click', initiateAuth);
   
-  // Check for authentication response
-  const params = new URLSearchParams(window.location.hash.substr(1));
-  const accessToken = params.get('access_token');
-  
-  if (accessToken) {
-    chrome.storage.local.set({ 'access_token': accessToken }, function() {
-      fetchHistory(accessToken);
-    });
-  } else {
-    chrome.storage.local.get(['access_token'], function(result) {
-      if (result.access_token) {
-        fetchHistory(result.access_token);
-      }
-    });
-  }
+  // Check for stored token
+  chrome.storage.local.get(['access_token'], function(result) {
+    if (result.access_token) {
+      fetchHistory(result.access_token);
+    }
+  });
 });
 
 function initiateAuth() {
@@ -32,9 +23,8 @@ function initiateAuth() {
     `&response_type=token` +
     `&scope=${encodeURIComponent(SCOPE)}`;
 
-  // Open auth window
-  window.open(authUrl, 'googleAuth', 
-    'width=600,height=600,menubar=no,toolbar=no,location=no,status=no');
+  // Open in new tab
+  window.open(authUrl, '_blank');
 }
 
 function fetchHistory(token) {
@@ -94,3 +84,4 @@ function fetchHistory(token) {
     document.getElementById('login-container').style.display = 'block';
   });
 }
+
