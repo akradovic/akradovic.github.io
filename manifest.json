@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "Chrome History in Edge",
+  "version": "1.0",
+  "description": "View Chrome browsing history in Microsoft Edge",
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "https://accounts.google.com/*",
+    "https://www.googleapis.com/*"
+  ],
+  "action": {
+    "default_popup": "popup/popup.html"
+  }
+}
