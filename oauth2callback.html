@@ -2,28 +2,46 @@
 <html>
 <head>
     <title>Authentication Complete</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            text-align: center;
+        }
+        .error {
+            color: red;
+            margin: 20px 0;
+        }
+    </style>
 </head>
 <body>
     <script>
-        // Extract token from URL hash
-        const params = new URLSearchParams(window.location.hash.substr(1));
-        const token = params.get('access_token');
-        const state = params.get('state');
-        
-        if (token) {
-            // Post message to opener window
-            if (window.opener) {
-                window.opener.postMessage({
-                    type: 'auth_complete',
-                    token: token,
-                    state: state
-                }, '*');
-            }
+        try {
+            const params = new URLSearchParams(window.location.hash.substr(1));
+            const token = params.get('access_token');
+            const state = params.get('state');
+            const error = params.get('error');
             
-            // Close window after brief delay
-            setTimeout(() => window.close(), 1000);
-        } else {
-            document.body.textContent = 'Authentication failed. Please try again.';
+            if (error) {
+                document.body.innerHTML = `<div class="error">Authentication failed: ${error}</div>`;
+            } else if (token) {
+                if (window.opener) {
+                    window.opener.postMessage({
+                        type: 'auth_complete',
+                        token: token,
+                        state: state
+                    }, 'chrome-extension://mbjjiodpefhljmhllpajnopjnoihbfnj');
+                    
+                    document.body.textContent = 'Authentication successful! You can close this window.';
+                    setTimeout(() => window.close(), 2000);
+                } else {
+                    document.body.innerHTML = '<div class="error">Window opener not found. Please try again.</div>';
+                }
+            } else {
+                document.body.innerHTML = '<div class="error">No token received. Please try again.</div>';
+            }
+        } catch (error) {
+            document.body.innerHTML = `<div class="error">An error occurred: ${error.message}</div>`;
         }
     </script>
 </body>

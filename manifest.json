@@ -4,14 +4,22 @@
   "version": "1.0",
   "description": "View Chrome browsing history in Microsoft Edge",
   "permissions": [
-    "storage"
+    "storage",
+    "identity"
   ],
   "host_permissions": [
     "https://accounts.google.com/*",
-    "https://www.googleapis.com/*"
+    "https://www.googleapis.com/*",
+    "https://akradovic.github.io/*"
   ],
   "action": {
     "default_popup": "popup/popup.html"
+  },
+  "externally_connectable": {
+    "matches": ["https://akradovic.github.io/*"]
+  },
+  "oauth2": {
+    "client_id": "144892577505-asqcuvotno6npuf54318hvjich4dkvgk.apps.googleusercontent.com",
+    "scopes": ["https://www.googleapis.com/auth/chrome.sync.history"]
   }
 }
-
