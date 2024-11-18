@@ -16,16 +16,36 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
+// Listen for the auth callback message
+window.addEventListener('message', function(event) {
+  // Verify the message origin
+  if (event.origin !== 'https://akradovic.github.io') return;
+  
+  if (event.data.type === 'auth_complete' && event.data.token) {
+    chrome.storage.local.set({ 'access_token': event.data.token }, function() {
+      fetchHistory(event.data.token);
+    });
+  }
+});
+
 function initiateAuth() {
+  // Generate a random state parameter
+  const state = Math.random().toString(36).substring(2);
+  
   const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?` +
     `client_id=${CLIENT_ID}` +
     `&redirect_uri=${encodeURIComponent(REDIRECT_URI)}` +
     `&response_type=token` +
+    `&state=${state}` +
     `&scope=${encodeURIComponent(SCOPE)}`;
 
-  // Open in new tab
-  window.open(authUrl, '_blank');
+  // Store the state
+  chrome.storage.local.set({ 'auth_state': state });
+  
+  // Open in new window (not tab)
+  window.open(authUrl, 'oauth_window', 'width=600,height=600');
 }
+
 
 function fetchHistory(token) {
   const historyContainer = document.getElementById('history-container');
