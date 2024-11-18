@@ -8,15 +8,13 @@
         // Extract token from URL hash
         const params = new URLSearchParams(window.location.hash.substr(1));
         const token = params.get('access_token');
-        const state = params.get('state');
         
         if (token) {
-            // Post message to extension
-            window.opener.postMessage({
+            // Send message to extension
+            chrome.runtime.sendMessage('mbjjiodpefhljmhllpajnopjnoihbfnj', {
                 type: 'auth_complete',
-                token: token,
-                state: state
-            }, '*');
+                token: token
+            });
             
             // Close window
             window.close();
